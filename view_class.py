@@ -118,24 +118,24 @@ class MyTableModel(QAbstractTableModel):
 
     def flags(self, index):
         if index.column() == 6:
-            return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
+            return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable # type: ignore
         else:
-            return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
+            return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable # type: ignore
 
     def data(self, index, role):
-        if role == Qt.EditRole:
+        if role == Qt.EditRole: # type: ignore
             row = index.row()
             column = index.column()
             return self.list[row][column]
 
-        if role == Qt.DisplayRole:
+        if role == Qt.DisplayRole: # type: ignore
             row = index.row()
             column = index.column()
             value = self.list[row][column]
             return value
 
-    def setData(self, index, value, role = Qt.EditRole):
-        if role == Qt.EditRole:
+    def setData(self, index, value, role = Qt.EditRole): # type: ignore
+        if role == Qt.EditRole: # type: ignore
             row = index.row()
             column = index.column()
             self.list[row][column] = value
@@ -144,8 +144,8 @@ class MyTableModel(QAbstractTableModel):
         return False
 
     def headerData(self, section, orientation, role):
-        if role == Qt.DisplayRole:
-            if orientation == Qt.Horizontal:
+        if role == Qt.DisplayRole: # type: ignore
+            if orientation == Qt.Horizontal: # type: ignore
                 if section < len(self.headers):
                     return self.headers[section]
                 else:
@@ -178,10 +178,10 @@ class TableDelegate(QtWidgets.QItemDelegate):
             if hr_list[0] == -2:
                 bgColor = BACKGROUND_BASE_COLOR_F
 
-        if option.state & QtWidgets.QStyle.State_Selected:
+        if option.state & QtWidgets.QStyle.State_Selected: # type: ignore
             bgColor = BACKGROUND_SELECTED
 
-        if option.state & QtWidgets.QStyle.State_HasFocus:
+        if option.state & QtWidgets.QStyle.State_HasFocus: # type: ignore
             bgColor = BACKGROUND_FOCUS
 
         # 土日色設定
@@ -196,7 +196,7 @@ class TableDelegate(QtWidgets.QItemDelegate):
         #if index.column() in [0, 4]:
         painter.setFont(QtGui.QFont("MS ゴシック", 8))
         painter.setPen(FONT_BASE_COLOR)
-        painter.drawText(option.rect, QtCore.Qt.AlignCenter | QtCore.Qt.TextWordWrap, index.data())
+        painter.drawText(option.rect, QtCore.Qt.AlignCenter | QtCore.Qt.TextWordWrap, index.data()) # type: ignore
 
 class Database():
     def __init__(self, db_name="") -> None:
@@ -208,7 +208,7 @@ class Database():
             database_ini = config_ini['DATA_FOLDER']
             self.dbfolder = database_ini.get('dbfile')
             database_class = config_ini['DATABASE_CLASS']
-            self.database_list = database_class.get('database').split(",")
+            self.database_list = database_class.get('database').split(",") # type: ignore
             self.database_name = database_class.get('database_class_1')
         self.path = os.path.expanduser('~')
         ch_path = f'{self.path}/{self.dbfolder}'

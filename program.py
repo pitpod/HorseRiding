@@ -107,14 +107,14 @@ class Application(QMainWindow):
         db = Database()
         ret_pd = db.pd_read_attach_query(sqlStr, self.yearNo)
         if ret_pd.empty:
-            QMessageBox.warning(None, "警告", "当月分のデータがありません。", QMessageBox.Yes)
+            QMessageBox.warning(None, "警告", "当月分のデータがありません。", QMessageBox.Yes) # type: ignore
             exit()
         self.df = ret_pd.groupby('receipt_number').agg({'name_phonetic':self.name_text,'name':self.name_text, 'date':list})
         self.df = self.df.sort_values('name_phonetic')
         self.df = self.df.drop('name_phonetic', axis=1)
         del db
 
-        hr_times_db = Database(1)
+        hr_times_db = Database(1) # type: ignore
         # sqlstr_hr = 'SELECT receive_no, weekly, monthly FROM program WHERE weekly != 0 OR monthly != 0'
         sqlstr_hr = 'SELECT receive_no, monthly FROM program WHERE weekly != 0 OR monthly != 0'
         hr_times_pd = hr_times_db.pd_read_query(sqlstr_hr)
@@ -224,18 +224,18 @@ class SerialData():
 
 def resource_path(relative):
     if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative)
+        return os.path.join(sys._MEIPASS, relative) # type: ignore
     return os.path.join(os.path.abspath('.'), relative)
 
 def re_ini():
-    Application.read_ini()
-    Application.table_data()
+    Application.read_ini() # type: ignore
+    Application.table_data() # type: ignore
 
 def main():
     app = QApplication(sys.argv)
 
     cur_path = os.path.dirname(__file__)
-    icon_path = f'{cur_path}\image\hr.png'
+    icon_path = f'{cur_path}\image\hr.png' # type: ignore
     app.setWindowIcon(QIcon(icon_path))
     # app.setWindowIcon(QIcon(resource_path('image//logo.png')))
     MainWindow = Application()
